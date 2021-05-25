@@ -4,10 +4,10 @@
 
 * [Overview](#overview)
 * [Images](#images)
-    * [`extremais/pkg-debian:buster`](#extremais-pkg-debian-buster)
-    * [`extremais/pkg-debian-stack:buster`](#extremais-pkg-debian-stack-buster)
-    * [`extremais/pkg-fedora:34`](#extremais-pkg-fedora-34)
-    * [`extremais/pkg-fedora-stack:34`](#extremais-pkg-fedora-stack-34)
+    * [`extremais/pkg-debian:buster`](#extremaispkg-debianbuster)
+    * [`extremais/pkg-debian-stack:buster`](#extremaispkg-debian-stackbuster)
+    * [`extremais/pkg-fedora:34`](#extremaispkg-fedora34)
+    * [`extremais/pkg-fedora-stack:34`](#extremaispkg-fedora-stack34)
 * [Usage](#usage)
     * [Requirements](#requirements)
     * [Building Images](#building-images)
@@ -51,7 +51,7 @@ software.  When the image is built, the version of GHC for the latest LTS
 decrease the number of packages that have to be built when this image is used.
 
 This image builds on top of
-[`extremais/pkg-debian:buster`](#extremais-pkg-debian-buster).
+[`extremais/pkg-debian:buster`](#extremaispkg-debianbuster).
 
 ### `extremais/pkg-fedora:34`
 
@@ -79,7 +79,7 @@ software.  When the image is built, the version of GHC for the latest LTS
 decrease the number of packages that have to be built when this image is used.
 
 This image builds on top of
-[`extremais/pkg-fedora:34`](#extremais-pkg-fedora-34).
+[`extremais/pkg-fedora:34`](#extremaispkg-fedora34).
 
 ## Usage
 
