@@ -7,7 +7,7 @@ ARG USER_UID=1000
 ENV LANG=C.UTF-8
 ENV TERM=${TERM}
 
-COPY fedora/build.sh /tmp/build.sh
+COPY fedora/build.sh fedora/make-rpm.sh /tmp/
 RUN /tmp/build.sh ${USER_UID} ${USER_GID}
 
 USER docker

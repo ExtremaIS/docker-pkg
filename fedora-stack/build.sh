@@ -51,17 +51,17 @@ put_info "Downloading and installing Stack"
 curl -L "https://www.stackage.org/stack/linux-x86_64" \
   | sudo tar -zx -C "/usr/local/opt"
 put_info "Linking /usr/local/bin/stack"
-sudo ln -s "$(ls /usr/local/opt/stack-*/stack)" /usr/local/bin/stack
+sudo ln -s "$(ls /usr/local/opt/stack-*/stack)" "/usr/local/bin/stack"
 put_info "Updating Stack database"
 stack update
 
 put_heading "Install GHC and hlint"
 put_info "Installing current GHC and hlint"
 stack install hlint
-ln -s /home/docker/.local/bin /home/docker/bin
+ln -s "/home/docker/.local/bin/hlint" "/home/docker/bin/hlint"
 
 put_heading "Clean up"
 put_info "Clean package index"
 sudo dnf clean all
-put_info "Removing build script"
-sudo rm /tmp/build.sh
+put_info "Removing temporary files"
+sudo rm "/tmp/build.sh"

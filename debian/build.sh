@@ -83,9 +83,17 @@ useradd \
   "docker"
 put_info "Setting password"
 echo "docker:docker" | chpasswd
+put_info "Creating /home/docker/bin directory"
+install -o "docker" -g "docker" -m 0755 -d "/home/docker/bin"
+
+put_heading "Install make-deb.sh"
+put_info "Installing make-deb.sh"
+install -o "docker" -g "docker" -m 0755 "/tmp/make-deb.sh" \
+  "/home/docker/bin/make-deb.sh"
+
 
 put_heading "Clean up"
 put_info "Removing package index"
 rm -rf /var/lib/apt/lists/*
-put_info "Removing build script"
-rm /tmp/build.sh
+put_info "Removing temporary files"
+rm "/tmp/build.sh" "/tmp/make-deb.sh"

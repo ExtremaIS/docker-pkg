@@ -11,7 +11,7 @@
 * [Usage](#usage)
     * [Requirements](#requirements)
     * [Building Images](#building-images)
-    * [Running Containers](#running-containers)
+    * [Example Usage](#example-usage)
 * [Project](#project)
     * [Contribution](#contribution)
     * [License](#license)
@@ -28,6 +28,13 @@ having to worry about file ownership issues.
 
 ## Images
 
+All of the images use the following conventions:
+
+* Containers are run using the `docker` user by default.  Commands can be run
+  as root by using `sudo`.
+* Mount the project build directory at the `/host` volume within the
+  container.
+
 ### `extremais/pkg-debian:buster`
 
 This image contains software for building `.deb` packages on
@@ -41,6 +48,34 @@ This image contains software for building `.deb` packages on
 * [`dh-make`](https://packages.debian.org/buster/dh-make)
 * [`git`](https://packages.debian.org/buster/git)
 * [`sudo`](https://packages.debian.org/buster/sudo)
+
+#### `make-deb.sh`
+
+A script for building `.deb` packages from a source tarball is installed at
+`/home/docker/bin/make-deb.sh`.  Note that its use is optional.  When
+different behavior is required, a custom script can be mounted and executed.
+
+When running this script in a container, do the following:
+
+* Set the `DEBFULLNAME` and `DEBEMAIL` environment variables.
+* Mount the project build directory at `/host` (read-write).
+* Pass the source tarball filename as an argument to the script.
+
+The source tarball filename must be in `PROJECT-VERSION.tar.xz` format.  The
+file must be in the mounted build directory and must contain the source code
+under a directory in `PROJECT-VERSION` format.  There must be a `dist/deb`
+directory under the source directory, which should include `control` and
+`copyright` files at minimum.  The following variables are replaced in the
+`control` file if they exist.
+
+| Variable   | Replacement     |
+| ---------- | --------------- |
+| `{{ARCH}}` | OS architecture |
+
+If `dist/deb` contains a `Makefile`, then it is used instead of the project
+`Makefile` to build the package.
+
+The build artifacts are copied to the mounted build directory.
 
 ### `extremais/pkg-debian-stack:buster`
 
@@ -69,6 +104,38 @@ This image contains software for building `.rpm` packages on
 * [`rpm-devel`](https://pkgs.org/download/rpm-devel)
 * [`rpmdevtools`](https://src.fedoraproject.org/rpms/rpmdevtools)
 * [`rpmlint`](https://src.fedoraproject.org/rpms/rpmlint)
+
+#### `make-rpm.sh`
+
+A script for building `.rpm` packages from a source tarball is installed at
+`/home/docker/bin/make-rpm.sh`.  Note that its use is optional.  When
+different behavior is required, a custom script can be mounted and executed.
+
+When running this script in a container, do the following:
+
+* Set the `RPMFULLNAME` and `RPMEMAIL` environment variables.
+* Mount the project build directory at `/host` (read-write).
+* Pass the source tarball filename as an argument to the script.
+
+The source tarball filename must be in `PROJECT-VERSION.tar.xz` format.  The
+file must be in the mounted build directory and must contain the source code
+under a directory in `PROJECT-VERSION` format.  There must be a `dist/rpm`
+directory under the source directory, which should include a `.spec` file in
+`PROJECT.spec` format.  The following variables are replaced in the `.spec`
+file if they exist.
+
+| Variable          | Replacement                                      |
+| ----------------- | ------------------------------------------------ |
+| `{{ARCH}}`        | OS architecture                                  |
+| `{{DATE}}`        | current date formatted for the changelog         |
+| `{{RPMEMAIL}}`    | value of the `RPMEMAIL` environment variable     |
+| `{{RPMFULLNAME}}` | value of the `RPMFULLNAME` environment variable  |
+| `{{VERSION}}`     | project version from the source tarball filename |
+
+If `dist/rpm` contains a `Makefile`, then it is used instead of the project
+`Makefile` to build the package.
+
+The build artifacts are copied to the mounted build directory.
 
 ### `extremais/pkg-fedora-stack:34`
 
@@ -133,29 +200,35 @@ extremais/pkg-debian-stack   buster    733030c6f44b   22 hours ago   4.89GB
 extremais/pkg-debian         buster    ec2fbe882a7e   5 days ago     701MB
 ```
 
-### Running Containers
+### Example Usage
 
-Run a container to use a built image.  The `/host` directory within the
-container may be used to mount a project directory on the host filesystem.
-The `docker` user is used by default.  Use `sudo` to run commands as root.
+The [hr][] project uses these images for building packages.
 
-For example, the [LiterateX][] project uses these images for building
-packages.  A container is run with the `build` directory mounted, containing
-the source tarball, and the build artifacts are output in the same directory.
-In the `deb` command in the `Makefile`, the following command runs the
-container:
+In the `deb` command in the `Makefile`, the following command runs a container
+to build a `.deb` package:
 
 ```
-docker run --rm -it \
+@docker run --rm -it \
   -e DEBFULLNAME="$(MAINTAINER_NAME)" \
   -e DEBEMAIL="$(MAINTAINER_EMAIL)" \
-  -v $(PWD)/dist/deb/make-deb.sh:/home/docker/make-deb.sh:ro \
   -v $(PWD)/build:/host \
   extremais/pkg-debian-stack:buster \
-  /home/docker/make-deb.sh "$(SRC)"
+  /home/docker/bin/make-deb.sh "$(SRC)"
 ```
 
-[Literatex]: <https://github.com/ExtremaIS/literatex-haskell#readme>
+In the `rpm` command in the `Makefile`, the following command runs a container
+to build a `.rpm` package:
+
+```
+@docker run --rm -it \
+  -e RPMFULLNAME="$(MAINTAINER_NAME)" \
+  -e RPMEMAIL="$(MAINTAINER_EMAIL)" \
+  -v $(PWD)/build:/host \
+  extremais/pkg-fedora-stack:34 \
+  /home/docker/bin/make-rpm.sh "$(SRC)"
+```
+
+[hr]: <https://github.com/ExtremaIS/hr-haskell#hr>
 
 ## Project
 

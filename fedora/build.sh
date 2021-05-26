@@ -76,9 +76,16 @@ useradd \
   "docker"
 put_info "Setting password"
 echo "docker:docker" | chpasswd
+put_info "Creating /home/docker/bin directory"
+install -o "docker" -g "docker" -m 0755 -d "/home/docker/bin"
+
+put_heading "Install make-rpm.sh"
+put_info "Installing make-rpm.sh"
+install -o "docker" -g "docker" -m 0755 "/tmp/make-rpm.sh" \
+  "/home/docker/bin/make-rpm.sh"
 
 put_heading "Clean up"
 put_info "Clean package index"
 dnf clean all
-put_info "Removing build script"
-rm /tmp/build.sh
+put_info "Removing temporary files"
+rm "/tmp/build.sh" "/tmp/make-rpm.sh"
