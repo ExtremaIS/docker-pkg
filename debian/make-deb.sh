@@ -49,8 +49,8 @@ test -n "${DEBEMAIL}" || die "DEBEMAIL not set"
 
 arch="$(dpkg --print-architecture)"
 
-[ -d "/host" ] || die "/host not mounted"
-[ -f "/host/${pkg_source}" ] || die "source not found: ${pkg_source}"
+test -d "/host" || die "/host not mounted"
+test -f "/host/${pkg_source}" || die "source not found: ${pkg_source}"
 
 ##############################################################################
 # Main
