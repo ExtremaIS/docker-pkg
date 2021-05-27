@@ -78,4 +78,9 @@ rpmbuild --rebuild "/home/docker/rpmbuild/SRPMS/"*".src.rpm"
 
 section "Copying build artifacts"
 cp "/home/docker/rpmbuild/SRPMS/"*".src.rpm" "/host"
-cp "/home/docker/rpmbuild/RPMS/${arch}/"*".rpm" "/host"
+if [ -d "/home/docker/rpmbuild/RPMS/${arch}" ] ; then
+  cp "/home/docker/rpmbuild/RPMS/${arch}/"*".rpm" "/host"
+fi
+if [ -d "/home/docker/rpmbuild/RPMS/noarch" ] ; then
+  cp "/home/docker/rpmbuild/RPMS/noarch/"*".rpm" "/host"
+fi
