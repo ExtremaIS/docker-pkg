@@ -74,6 +74,16 @@ pkg-debian-stack-buster: DOCKER_TAG = buster
 pkg-debian-stack-buster: build-debian-stack
 .PHONY: pkg-debian-stack-buster
 
+pkg-debian-bullseye: # build extremais/pkg-debian:bullseye
+pkg-debian-bullseye: DOCKER_TAG = bullseye
+pkg-debian-bullseye: build-debian
+.PHONY: pkg-debian-bullseye
+
+pkg-debian-stack-bullseye: # build extremais/pkg-debian-stack:bullseye
+pkg-debian-stack-bullseye: DOCKER_TAG = bullseye
+pkg-debian-stack-bullseye: build-debian-stack
+.PHONY: pkg-debian-stack-bullseye
+
 pkg-fedora-34: # build extremais/pkg-fedora:34
 pkg-fedora-34: DOCKER_TAG = 34
 pkg-fedora-34: build-fedora

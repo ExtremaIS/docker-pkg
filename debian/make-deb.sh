@@ -66,6 +66,9 @@ section "Preparing package source"
 dh_make --single --yes -f "/host/${pkg_source}"
 cd "debian"
 rm -rf README.* "${pkg_name}"* ./*.ex "source"
+if [ ! -f "compat" ] ; then
+  echo "11" > "compat"
+fi
 cp -r ../dist/deb/* .
 sed -i "s/^  \\*.*/  * Release ${pkg_version}/" "changelog"
 sed -i "s/{{ARCH}}/${arch}/" "control"

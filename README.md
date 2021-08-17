@@ -4,8 +4,8 @@
 
 * [Overview](#overview)
 * [Images](#images)
-    * [`extremais/pkg-debian:buster`](#extremaispkg-debianbuster)
-    * [`extremais/pkg-debian-stack:buster`](#extremaispkg-debian-stackbuster)
+    * [`extremais/pkg-debian:bullseye`](#extremaispkg-debianbullseye)
+    * [`extremais/pkg-debian-stack:bullseye`](#extremaispkg-debian-stackbullseye)
     * [`extremais/pkg-fedora:34`](#extremaispkg-fedora34)
     * [`extremais/pkg-fedora-stack:34`](#extremaispkg-fedora-stack34)
 * [Usage](#usage)
@@ -35,19 +35,19 @@ All of the images use the following conventions:
 * Mount the project build directory at the `/host` volume within the
   container.
 
-### `extremais/pkg-debian:buster`
+### `extremais/pkg-debian:bullseye`
 
 This image contains software for building `.deb` packages on
 [Debian](https://www.debian.org/)
-[buster](https://www.debian.org/releases/buster/).
+[bullseye](https://www.debian.org/releases/bullseye/).
 
-* [`build-essential`](https://packages.debian.org/buster/build-essential)
-* [`curl`](https://packages.debian.org/buster/curl)
-* [`debhelper`](https://packages.debian.org/buster/debhelper)
-* [`devscripts`](https://packages.debian.org/buster/devscripts)
-* [`dh-make`](https://packages.debian.org/buster/dh-make)
-* [`git`](https://packages.debian.org/buster/git)
-* [`sudo`](https://packages.debian.org/buster/sudo)
+* [`build-essential`](https://packages.debian.org/bullseye/build-essential)
+* [`curl`](https://packages.debian.org/bullseye/curl)
+* [`debhelper`](https://packages.debian.org/bullseye/debhelper)
+* [`devscripts`](https://packages.debian.org/bullseye/devscripts)
+* [`dh-make`](https://packages.debian.org/bullseye/dh-make)
+* [`git`](https://packages.debian.org/bullseye/git)
+* [`sudo`](https://packages.debian.org/bullseye/sudo)
 
 #### `make-deb.sh`
 
@@ -77,7 +77,7 @@ If `dist/deb` contains a `Makefile`, then it is used instead of the project
 
 The build artifacts are copied to the mounted build directory.
 
-### `extremais/pkg-debian-stack:buster`
+### `extremais/pkg-debian-stack:bullseye`
 
 This image contains [Stack][https://www.haskellstack.org] for building Haskell
 software.  When the image is built, the version of GHC for the latest LTS
@@ -86,7 +86,7 @@ software.  When the image is built, the version of GHC for the latest LTS
 decrease the number of packages that have to be built when this image is used.
 
 This image builds on top of
-[`extremais/pkg-debian:buster`](#extremaispkg-debianbuster).
+[`extremais/pkg-debian:bullseye`](#extremaispkg-debianbullseye).
 
 ### `extremais/pkg-fedora:34`
 
@@ -167,25 +167,27 @@ To see which images are currently configured, run `make help`.
 
 ```
 [docker-pkg] $ make
-make help                     show this help
-make list                     list built/tagged images
-make pkg-debian-buster        build extremais/pkg-debian:buster
-make pkg-debian-stack-buster  build extremais/pkg-debian-stack:buster
-make pkg-fedora-34            build extremais/pkg-fedora:34
-make pkg-fedora-stack-34      build extremais/pkg-fedora-stack:34
-make shellcheck               run shellcheck on scripts
+make help                       show this help
+make list                       list built/tagged images
+make pkg-debian-buster          build extremais/pkg-debian:buster
+make pkg-debian-stack-buster    build extremais/pkg-debian-stack:buster
+make pkg-debian-bullseye        build extremais/pkg-debian:bullseye
+make pkg-debian-stack-bullseye  build extremais/pkg-debian-stack:bullseye
+make pkg-fedora-34              build extremais/pkg-fedora:34
+make pkg-fedora-stack-34        build extremais/pkg-fedora-stack:34
+make shellcheck                 run shellcheck on scripts
 ```
 
 Note that the `Makefile` does *not* automatically build parents or delete old
 images when a new one is built.
 
-For example, the following commands build the `extremais/pkg-debian:buster`
-parent image and then the `extremais/pkg-debian-stack:buster` image:
+For example, the following commands build the `extremais/pkg-debian:bullseye`
+parent image and then the `extremais/pkg-debian-stack:bullseye` image:
 
 ```
-[docker-pkg] $ make pkg-debian-buster
+[docker-pkg] $ make pkg-debian-bullseye
 ...
-[docker-pkg] $ make pkg-debian-stack-buster
+[docker-pkg] $ make pkg-debian-stack-bullseye
 ...
 ```
 
@@ -212,7 +214,7 @@ to build a `.deb` package:
   -e DEBFULLNAME="$(MAINTAINER_NAME)" \
   -e DEBEMAIL="$(MAINTAINER_EMAIL)" \
   -v $(PWD)/build:/host \
-  extremais/pkg-debian-stack:buster \
+  extremais/pkg-debian-stack:bullseye\
   /home/docker/bin/make-deb.sh "$(SRC)"
 ```
 
