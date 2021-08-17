@@ -64,24 +64,24 @@ list: # list built/tagged images
 > @docker images "extremais/pkg-*"
 .PHONY: list
 
+pkg-debian-buster: # build extremais/pkg-debian:buster
 pkg-debian-buster: DOCKER_TAG = buster
 pkg-debian-buster: build-debian
-pkg-debian-buster: # build extremais/pkg-debian:buster
 .PHONY: pkg-debian-buster
 
+pkg-debian-stack-buster: # build extremais/pkg-debian-stack:buster
 pkg-debian-stack-buster: DOCKER_TAG = buster
 pkg-debian-stack-buster: build-debian-stack
-pkg-debian-stack-buster: # build extremais/pkg-debian-stack:buster
 .PHONY: pkg-debian-stack-buster
 
+pkg-fedora-34: # build extremais/pkg-fedora:34
 pkg-fedora-34: DOCKER_TAG = 34
 pkg-fedora-34: build-fedora
-pkg-fedora-34: # build extremais/pkg-fedora:34
 .PHONY: pkg-fedora-34
 
+pkg-fedora-stack-34: # build extremais/pkg-fedora-stack:34
 pkg-fedora-stack-34: DOCKER_TAG = 34
 pkg-fedora-stack-34: build-fedora-stack
-pkg-fedora-stack-34: # build extremais/pkg-fedora-stack:34
 .PHONY: pkg-fedora-stack-34
 
 shellcheck: # run shellcheck on scripts
