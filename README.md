@@ -63,7 +63,7 @@ When running this script in a container, do the following:
 
 The source tarball filename must be in `PROJECT-VERSION.tar.xz` format.  The
 file must be in the mounted build directory and must contain the source code
-under a directory in `PROJECT-VERSION` format.  There must be a `dist/deb`
+under a directory in `PROJECT-VERSION` format.  There must be a `pkg/deb`
 directory under the source directory, which should include `control` and
 `copyright` files at minimum.  The following variables are replaced in the
 `control` file if they exist.
@@ -72,7 +72,7 @@ directory under the source directory, which should include `control` and
 | ---------- | --------------- |
 | `{{ARCH}}` | OS architecture |
 
-If `dist/deb` contains a `Makefile`, then it is used instead of the project
+If `pkg/deb` contains a `Makefile`, then it is used instead of the project
 `Makefile` to build the package.
 
 The build artifacts are copied to the mounted build directory.
@@ -119,7 +119,7 @@ When running this script in a container, do the following:
 
 The source tarball filename must be in `PROJECT-VERSION.tar.xz` format.  The
 file must be in the mounted build directory and must contain the source code
-under a directory in `PROJECT-VERSION` format.  There must be a `dist/rpm`
+under a directory in `PROJECT-VERSION` format.  There must be a `pkg/rpm`
 directory under the source directory, which should include a `.spec` file in
 `PROJECT.spec` format.  The following variables are replaced in the `.spec`
 file if they exist.
@@ -132,7 +132,7 @@ file if they exist.
 | `{{RPMFULLNAME}}` | value of the `RPMFULLNAME` environment variable  |
 | `{{VERSION}}`     | project version from the source tarball filename |
 
-If `dist/rpm` contains a `Makefile`, then it is used instead of the project
+If `pkg/rpm` contains a `Makefile`, then it is used instead of the project
 `Makefile` to build the package.
 
 The build artifacts are copied to the mounted build directory.

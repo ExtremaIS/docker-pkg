@@ -60,7 +60,7 @@ cd "/tmp"
 tar -Jxf "/host/${pkg_source}"
 test -d "${pkg_dir}" || die "source directory not found: ${pkg_dir}"
 cd "${pkg_dir}"
-test -d "dist/deb" || die "dist/deb directory not found"
+test -d "pkg/deb" || die "pkg/deb directory not found"
 
 section "Preparing package source"
 dh_make --single --yes -f "/host/${pkg_source}"
@@ -69,7 +69,7 @@ rm -rf README.* "${pkg_name}"* ./*.ex "source"
 if [ ! -f "compat" ] ; then
   echo "11" > "compat"
 fi
-cp -r ../dist/deb/* .
+cp -r ../pkg/deb/* .
 sed -i "s/^  \\*.*/  * Release ${pkg_version}/" "changelog"
 sed -i "s/{{ARCH}}/${arch}/" "control"
 if [ -f "Makefile" ] ; then

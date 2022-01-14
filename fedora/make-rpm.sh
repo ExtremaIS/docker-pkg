@@ -61,15 +61,15 @@ cp "/host/${pkg_source}" "/home/docker/rpmbuild/SOURCES"
 
 section "Building source RPM"
 cd "/tmp"
-tar -Jxf "/host/${pkg_source}" "${pkg_dir}/dist/rpm/${pkg_name}.spec" \
-  || die "${pkg_dir}/dist/rpm/${pkg_name}.spec not found"
+tar -Jxf "/host/${pkg_source}" "${pkg_dir}/pkg/rpm/${pkg_name}.spec" \
+  || die "${pkg_dir}/pkg/rpm/${pkg_name}.spec not found"
 sed \
   -e "s/{{ARCH}}/${arch}/" \
   -e "s/{{VERSION}}/${pkg_version}/g" \
   -e "s/{{DATE}}/$(env LC_ALL=C date '+%a %b %d %Y')/" \
   -e "s/{{RPMFULLNAME}}/${RPMFULLNAME}/" \
   -e "s/{{RPMEMAIL}}/${RPMEMAIL}/" \
-  "${pkg_dir}/dist/rpm/${pkg_name}.spec" \
+  "${pkg_dir}/pkg/rpm/${pkg_name}.spec" \
   > "${pkg_name}.spec"
 rpmbuild -bs "${pkg_name}.spec"
 
