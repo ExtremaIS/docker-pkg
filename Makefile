@@ -18,6 +18,17 @@ MAKEFLAGS += --warn-undefined-variables
 .DEFAULT_GOAL := help
 
 ##############################################################################
+# Functions
+
+define all_files
+  find . -not -path '*/\.*' -type f
+endef
+
+define die
+  (echo "error: $(1)" ; false)
+endef
+
+##############################################################################
 # Rules
 
 build-debian: #internal# build Debian image
@@ -54,11 +65,21 @@ build-fedora-stack: #internal# build Fedora Stack image
 >   .
 .PHONY: build-fedora-stack
 
+grep: # grep all non-hidden files for expression E
+> $(eval E:= "")
+> @test -n "$(E)" || $(call die,"usage: make grep E=expression")
+> @$(call all_files) | xargs grep -Hn '$(E)' || true
+.PHONY: grep
+
 help: # show this help
 > @grep '^[a-zA-Z0-9._-]\+:[^#]*# ' $(MAKEFILE_LIST) \
 >   | sed 's/^\([^:]\+\):[^#]*# \(.*\)/make \1\t\2/' \
 >   | column -t -s $$'\t'
 .PHONY: help
+
+ignored: # list files ignored by git
+> @git ls-files . --ignored --exclude-standard --others
+.PHONY: ignored
 
 list: # list built/tagged images
 > @docker images "extremais/pkg-*"
@@ -94,6 +115,24 @@ pkg-fedora-stack-34: DOCKER_TAG = 34
 pkg-fedora-stack-34: build-fedora-stack
 .PHONY: pkg-fedora-stack-34
 
+recent: # show N most recently modified files
+> $(eval N := "10")
+> @find . -not -path '*/\.*' -type f -printf '%T+ %p\n' \
+>   | sort --reverse \
+>   | head -n $(N)
+.PHONY: recent
+
 shellcheck: # run shellcheck on scripts
 > @find . -name '*.sh' | xargs shellcheck
 .PHONY: shellcheck
+
+todo: # search for TODO items
+> @find . -type f \
+>   -not -path '*/\.*' \
+>   -not -path './build/*' \
+>   -not -path './project/*' \
+>   -not -path ./Makefile \
+>   | xargs grep -Hn TODO \
+>   | grep -v '^Binary file ' \
+>   || true
+.PHONY: todo
