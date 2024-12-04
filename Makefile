@@ -85,6 +85,16 @@ list: # list built/tagged images
 > @docker images "extremais/pkg-*"
 .PHONY: list
 
+pkg-debian-bookworm: # build extremais/pkg-debian:bookworm
+pkg-debian-bookworm: DOCKER_TAG = bookworm
+pkg-debian-bookworm: build-debian
+.PHONY: pkg-debian-bookworm
+
+pkg-debian-stack-bookworm: # build extremais/pkg-debian-stack:bookworm
+pkg-debian-stack-bookworm: DOCKER_TAG = bookworm
+pkg-debian-stack-bookworm: build-debian-stack
+.PHONY: pkg-debian-stack-bookworm
+
 pkg-debian-buster: # build extremais/pkg-debian:buster
 pkg-debian-buster: DOCKER_TAG = buster
 pkg-debian-buster: build-debian
