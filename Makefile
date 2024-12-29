@@ -43,6 +43,7 @@ build-debian: #internal# build Debian image
 
 build-debian-stack: #internal# build Debian Stack image
 > docker build \
+>   --no-cache \
 >   --file debian-stack/$(DOCKER_TAG)/Dockerfile \
 >   --tag extremais/pkg-debian-stack:$(DOCKER_TAG) \
 >   .
@@ -60,6 +61,7 @@ build-fedora: #internal# build Fedora image
 
 build-fedora-stack: #internal# build Fedora Stack image
 > docker build \
+>   --no-cache \
 >   --file fedora-stack/$(DOCKER_TAG)/Dockerfile \
 >   --tag extremais/pkg-fedora-stack:$(DOCKER_TAG) \
 >   .
