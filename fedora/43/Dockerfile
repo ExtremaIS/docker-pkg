@@ -1,4 +1,4 @@
-FROM fedora:41
+FROM fedora:43
 
 ARG TERM=xterm
 ARG USER_GID=1000

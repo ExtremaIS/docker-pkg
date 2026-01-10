@@ -127,15 +127,15 @@ pkg-debian-stack-bullseye: DOCKER_TAG = bullseye
 pkg-debian-stack-bullseye: build-debian-stack
 .PHONY: pkg-debian-stack-bullseye
 
-pkg-fedora-41: # build extremais/pkg-fedora:41
-pkg-fedora-41: DOCKER_TAG = 41
-pkg-fedora-41: build-fedora
-.PHONY: pkg-fedora-41
+pkg-fedora-43: # build extremais/pkg-fedora:43
+pkg-fedora-43: DOCKER_TAG = 43
+pkg-fedora-43: build-fedora
+.PHONY: pkg-fedora-43
 
-pkg-fedora-stack-41: # build extremais/pkg-fedora-stack:41
-pkg-fedora-stack-41: DOCKER_TAG = 41
-pkg-fedora-stack-41: build-fedora-stack
-.PHONY: pkg-fedora-stack-41
+pkg-fedora-stack-43: # build extremais/pkg-fedora-stack:43
+pkg-fedora-stack-43: DOCKER_TAG = 43
+pkg-fedora-stack-43: build-fedora-stack
+.PHONY: pkg-fedora-stack-43
 
 recent: # show N most recently modified files
 > $(eval N := "10")
